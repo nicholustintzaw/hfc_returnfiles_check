@@ -1,14 +1,37 @@
 /*******************************************************************************
 
-//	Project:		MP Myanmar
 // 	Task:			Check all the field team response answer to HFC output files
 // 	Author: 		
-// 	Last update: 	Sept 21 2019
+// 	Last update: 		Sept 21 2019
 
 *******************************************************************************/
 
-* run global directory do
-do "00_global.do"
+// Settings for stata
+pause on
+clear all
+clear mata
+set more off
+set scrollbufsize 100000
+set mem 100m
+set matsize 11000
+set maxvar 32767
+set excelxlsxlargefile on
+
+********************************************************************************
+*  ADJUST GLOBALS
+local user = c(username)
+
+di "`user'"
+
+// Nicholus
+if "`user'" == "nicholustintzaw" {
+		global root		 			"/Users/nicholustintzaw/Box Sync/IPA_MMR_Projects/07 Microfinance Plus"	
+}
+
+global BL_HFC		"$root/07_Questionnaires&Data/0_Baseline - HFC" 
+global BL_data		"$BL_HFC/05_data/02_survey/02_CTO_data"
+global BL_HFC		"$root/07_Questionnaires&Data/0_Baseline - HFC" 
+		
 
 *******************************************************************************/
 ********************************************************************************
