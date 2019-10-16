@@ -1,37 +1,14 @@
 /*******************************************************************************
 
+//	Project:		MP Myanmar
 // 	Task:			Check all the field team response answer to HFC output files
 // 	Author: 		
-// 	Last update: 		Sept 21 2019
+// 	Last update: 	Sept 21 2019
 
 *******************************************************************************/
 
-// Settings for stata
-pause on
-clear all
-clear mata
-set more off
-set scrollbufsize 100000
-set mem 100m
-set matsize 11000
-set maxvar 32767
-set excelxlsxlargefile on
-
-********************************************************************************
-*  ADJUST GLOBALS
-local user = c(username)
-
-di "`user'"
-
-// Nicholus
-if "`user'" == "nicholustintzaw" {
-		global root		 			"/Users/nicholustintzaw/Box Sync/IPA_MMR_Projects/07 Microfinance Plus"	
-}
-
-global BL_HFC		"$root/07_Questionnaires&Data/0_Baseline - HFC" 
-global BL_data		"$BL_HFC/05_data/02_survey/02_CTO_data"
-global BL_HFC		"$root/07_Questionnaires&Data/0_Baseline - HFC" 
-		
+* run global directory do
+do "00_global.do"
 
 *******************************************************************************/
 ********************************************************************************
@@ -210,7 +187,7 @@ if `r(N)' > 0 {
 keep if _merge == 3
 drop _merge
 
-
+drop if newvalue_zero == 1
 drop if mi(correctvalue) & mi(comment)
 drop if !mi(correctvalue) & mi(correctvalue_num)
 drop if !mi(correctvalue) & correctvalue != survey & correctvalue != back_check
@@ -248,11 +225,27 @@ save `bc', emptyok
 
 foreach file in `xlsx' {
 	di "now improting `file' file"
-	import excel using "$BL_HFC/04_checks/03_outputs_check/01_hfc_hh/`file'", sheet("11. outliers") firstrow case(lower) allstring clear
-	gen source = "`file'"
-	append using `bc'
-	save `bc', replace
+	
+	
+	import excel using "$BL_HFC/04_checks/03_outputs_check/01_hfc_hh/`file'", describe
+	return list
+	local n_sheets `r(N_worksheet)'
+	forvalues j = 1/`n_sheets' {
+		local sheet_`j' `r(worksheet_`j')'
+		}
+		
+	forvalues j = 1/`n_sheets' {
+		if "`sheet_`j''" == "11. outliers" {
+			import excel 	using "$BL_HFC/04_checks/03_outputs_check/01_hfc_hh/`file'", ///
+							sheet("11. outliers") firstrow case(lower) allstring clear
+			
+			gen source = "`file'"
+			append using `bc'
+			save `bc', replace
+			}
+		}
 }
+
 
 ** drop missing observation **
 drop if mi(partid) & mi(variable) & mi(value) & mi(correctvalue) & mi(comment)
@@ -378,6 +371,7 @@ if `r(N)' > 0 {
 keep if _merge == 3
 drop _merge
 
+drop if newvalue_zero == 1
 drop if mi(correctvalue) & mi(comment)
 drop if !mi(correctvalue) & mi(correctvalue_num)
 drop if correctvalue_num > value_num & (!mi(correctvalue_num) & !mi(value_num))
@@ -414,12 +408,28 @@ clear
 tempfile bc
 save `bc', emptyok
 
+
 foreach file in `xlsx' {
 	di "now improting `file' file"
-	import excel using "$BL_HFC/04_checks/03_outputs_check/01_hfc_hh/`file'", sheet("8. constraints") firstrow case(lower) allstring clear
-	gen source = "`file'"
-	append using `bc'
-	save `bc', replace
+	
+	
+	import excel using "$BL_HFC/04_checks/03_outputs_check/01_hfc_hh/`file'", describe
+	return list
+	local n_sheets `r(N_worksheet)'
+	forvalues j = 1/`n_sheets' {
+		local sheet_`j' `r(worksheet_`j')'
+		}
+		
+	forvalues j = 1/`n_sheets' {
+		if "`sheet_`j''" == "8. constraints" {
+			import excel 	using "$BL_HFC/04_checks/03_outputs_check/01_hfc_hh/`file'", ///
+							sheet("8. constraints") firstrow case(lower) allstring clear
+			
+			gen source = "`file'"
+			append using `bc'
+			save `bc', replace
+			}
+		}
 }
 
 ** drop missing observation **
@@ -546,6 +556,7 @@ if `r(N)' > 0 {
 keep if _merge == 3
 drop _merge
 
+drop if newvalue_zero == 1
 drop if mi(correctvalue) & mi(comment)
 drop if !mi(correctvalue) & mi(correctvalue_num)
 drop if correctvalue_num > value_num & (!mi(correctvalue_num) & !mi(value_num))
