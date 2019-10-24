@@ -9,7 +9,7 @@
 3. hfc outputs - *other specify* 
 4. bc outputs sheet
 
-*field team need to provide their comments on each sheet by adding **two variable** in each output sheet*;
+*field team need to provide their comments on each sheet by adding **two variables** in each output sheet*;
 1. comment - explain the follow-up check answer from the respective enumerator or team leader
 2. correctvalue - if enumerators provided the correct value to perform data correction, pelase mentione in this variable
 
