@@ -3,7 +3,7 @@
 ## Purpose
 ### perform quick check on the hfc outputs follow-up check files ruturn from the field teams
 
-checking perform the following sheets from hfc outputs files and bc check result files
+/*checking perform the following sheets from hfc outputs files and bc check result files
 1. hfc outputs - outliers
 2. hfc outputs - constraints
 3. hfc outputs - other specify 
