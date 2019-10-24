@@ -3,13 +3,13 @@
 ## Purpose
 ### perform quick check on the hfc outputs follow-up check files ruturn from the field teams
 
-/*checking perform the following sheets from hfc outputs files and bc check result files
+*checking perform the following sheets from hfc outputs files and bc check result files*
 1. hfc outputs - outliers
 2. hfc outputs - constraints
 3. hfc outputs - other specify 
 4. bc outputs sheet
 
-field team need to provide their comments on each sheet by adding two variable in each output sheet;
+*field team need to provide their comments on each sheet by adding **two variable** in each output sheet*;
 1. comment - explain the follow-up check answer from the respective enumerator or team leader
 2. correctvalue - if enumerators provided the correct value to perform data correction, pelase mentione in this variable
 
